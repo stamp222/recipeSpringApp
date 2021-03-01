@@ -1,4 +1,4 @@
-package domain;
+package spring.phlodx.recipeapp.domain;
 
 import javax.persistence.*;
 
