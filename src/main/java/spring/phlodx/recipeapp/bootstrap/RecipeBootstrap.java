@@ -1,8 +1,10 @@
 package spring.phlodx.recipeapp.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import spring.phlodx.recipeapp.domain.*;
 import spring.phlodx.recipeapp.repositories.CategoryRepository;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final RecipeRepository recipeRepository;
@@ -26,7 +29,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.debug("onApplicationEvent started and data are saved to database");
         recipeRepository.saveAll(getRecipes());
     }
 
