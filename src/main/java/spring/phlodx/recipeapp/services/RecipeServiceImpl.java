@@ -2,6 +2,9 @@ package spring.phlodx.recipeapp.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import spring.phlodx.recipeapp.commands.RecipeCommand;
+import spring.phlodx.recipeapp.converters.RecipeCommandToRecipe;
+import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
 import spring.phlodx.recipeapp.domain.Recipe;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 
@@ -13,9 +16,15 @@ import java.util.Set;
 @Service
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
+    private final RecipeToRecipeCommand recipeToRecipeCommandConverter;
+    private final RecipeCommandToRecipe recipeCommandToRecipeConverter;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+
+
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommandConverter, RecipeCommandToRecipe recipeCommandToRecipeConverter) {
         this.recipeRepository = recipeRepository;
+        this.recipeToRecipeCommandConverter = recipeToRecipeCommandConverter;
+        this.recipeCommandToRecipeConverter = recipeCommandToRecipeConverter;
     }
 
     @Override
@@ -33,5 +42,12 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RuntimeException("Recipe Not Found");
         else
             return recipeOptional.get();
+    }
+
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipe) {
+        Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipeConverter.convert(recipe));
+        log.debug("Saved RecipeId: " + savedRecipe.getId());
+        return recipeToRecipeCommandConverter.convert(savedRecipe);
     }
 }

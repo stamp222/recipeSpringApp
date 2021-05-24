@@ -4,10 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import spring.phlodx.recipeapp.converters.RecipeCommandToRecipe;
+import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
 import spring.phlodx.recipeapp.domain.Recipe;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -21,13 +22,19 @@ public class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
 
     @Mock
+    RecipeToRecipeCommand recipeToRecipeCommandConverter;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipeConverter;
+
+    @Mock
     RecipeRepository recipeRepository;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommandConverter, recipeCommandToRecipeConverter);
     }
 
     @Test
