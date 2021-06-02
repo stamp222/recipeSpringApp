@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <title>Show Recipe</title>
 
+
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"
         th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
@@ -39,7 +40,7 @@
                 <h5>Prep Time:</h5>
               </div>
               <div class="col-md-3">
-                <p th:text="${(recipe.prepTime) + ' Min'}">30 min</p>
+                <p th:text="${(recipe.prepTime) +  '  Min'}">30 min</p>
               </div>
               <div class="col-md-3">
                 <h5>Difficulty:</h5>
@@ -53,7 +54,7 @@
                 <h5>Cooktime:</h5>
               </div>
               <div class="col-md-3">
-                <p th:text="${(recipe.cookTime) + ' Min'}">30 min</p>
+                <p th:text="${(recipe.cookTime  +  '  Min')}">30 min</p>
               </div>
               <div class="col-md-3">
                 <h5>Servings:</h5>
@@ -73,14 +74,21 @@
                 <h5>URL:</h5>
               </div>
               <div class="col-md-3">
-                <p th:text="${recipe.url}">http://www.example.com</p>
+                <p><a href="#" th:href="@{recipe.url}" >View Original</a></p>
               </div>
             </div>
           </div>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h1 class="panel-title" >Ingredients</h1>
+            <div class="row">
+              <div class="col-md-11 ">
+                <h1 class="panel-title">Ingredients</h1>
+              </div>
+              <div class="col-md-1">
+                <a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
+              </div>
+            </div>
           </div>
           <div class="panel-body">
             <div class="row">
@@ -89,9 +97,9 @@
                   <li th:remove="all">1 Cup of milk</li>
                   <li th:remove="all">1 Teaspoon of chocolate</li>
                   <li th:each="ingredient : ${recipe.ingredients}"
-                      th:text="${(ingredient.getAmount()  + ' ' +
-                      ingredient.uom.getUom() + ' - ' +
-                      ingredient.getDescription())}">1 Teaspoon of Sugar</li>
+                      th:text="${(ingredient.getAmount() +
+                                        ' ' + ingredient.uom.getUom() +
+                                        ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar</li>
                 </ul>
               </div>
             </div>

@@ -66,7 +66,7 @@ class IngredientCommandToIngredientTest {
         Ingredient ingredient = ingredientCommandToIngredientConverter.convert(ingredientCommand);
 
         assertNotNull(ingredient);
-        assertNotNull(ingredient.getUom());
+        assertNull(ingredient.getUom());
         assertEquals(ingredient.getId(), ID_VALUE);
         assertEquals(ingredient.getAmount(), AMOUNT);
         assertEquals(ingredient.getDescription(), DESCRIPTION);

@@ -8,6 +8,7 @@ import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
 import spring.phlodx.recipeapp.domain.Recipe;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -49,5 +50,16 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipeConverter.convert(recipe));
         log.debug("Saved RecipeId: " + savedRecipe.getId());
         return recipeToRecipeCommandConverter.convert(savedRecipe);
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        return recipeToRecipeCommandConverter.convert(findById(id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
     }
 }

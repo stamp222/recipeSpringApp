@@ -1,0 +1,79 @@
+package spring.phlodx.recipeapp.services;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import spring.phlodx.recipeapp.commands.IngredientCommand;
+import spring.phlodx.recipeapp.controllers.IngredientController;
+import spring.phlodx.recipeapp.converters.IngredientToIngredientCommand;
+import spring.phlodx.recipeapp.converters.RecipeCommandToRecipe;
+import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
+import spring.phlodx.recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
+import spring.phlodx.recipeapp.domain.Ingredient;
+import spring.phlodx.recipeapp.domain.Recipe;
+import spring.phlodx.recipeapp.repositories.RecipeRepository;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
+
+public class IngredientServiceImplTest {
+
+    IngredientServiceImpl ingredientService;
+
+
+    IngredientToIngredientCommand ingredientToIngredientCommandConverter;
+
+    @Mock
+    RecipeRepository recipeRepository;
+
+    //init converters
+    public IngredientServiceImplTest() {
+        this.ingredientToIngredientCommandConverter = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
+        ingredientService = new IngredientServiceImpl(recipeRepository, ingredientToIngredientCommandConverter);
+    }
+
+    @Test
+    public void findByRecipeIdAndReceipeIdHappyPath() throws Exception {
+        //given
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(1L);
+
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setId(3L);
+
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+        recipe.addIngredient(ingredient3);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        //then
+        IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId(1L, 3L);
+
+        //when
+        assertEquals(Long.valueOf(3L), ingredientCommand.getId());
+        assertEquals(Long.valueOf(1L), ingredientCommand.getRecipeId());
+        verify(recipeRepository, times(1)).findById(anyLong());
+    }
+
+}
