@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.phlodx.recipeapp.commands.IngredientCommand;
 import spring.phlodx.recipeapp.commands.RecipeCommand;
+import spring.phlodx.recipeapp.commands.UnitOfMeasureCommand;
 import spring.phlodx.recipeapp.services.IngredientService;
 import spring.phlodx.recipeapp.services.RecipeService;
 import spring.phlodx.recipeapp.services.UnitOfMeasureService;
@@ -39,6 +40,21 @@ public class IngredientController {
     }
 
     @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model) {
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
+    }
+
+    @GetMapping
     @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
@@ -54,7 +70,12 @@ public class IngredientController {
         return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() + "/ingredient/" + savedIngredientCommand.getId() + "/show";
     }
 
-
+    @GetMapping
+    @RequestMapping({"/recipe/{recipeId}/ingredient/{ingredientId}/delete"})
+    public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId) {
+        ingredientService.deleteIngredientById(Long.valueOf(recipeId), Long.valueOf(ingredientId));
+        return "redirect:/recipe/"+recipeId+"/ingredients";
+    }
 
 
 }
