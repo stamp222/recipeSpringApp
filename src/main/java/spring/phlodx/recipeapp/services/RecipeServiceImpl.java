@@ -6,6 +6,7 @@ import spring.phlodx.recipeapp.commands.RecipeCommand;
 import spring.phlodx.recipeapp.converters.RecipeCommandToRecipe;
 import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
 import spring.phlodx.recipeapp.domain.Recipe;
+import spring.phlodx.recipeapp.exceptions.NotFoundException;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 
 import javax.transaction.Transactional;
@@ -40,7 +41,8 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
         if(!recipeOptional.isPresent())
-            throw new RuntimeException("Recipe Not Found");
+//            throw new RuntimeException("Recipe Not Found");
+            throw new NotFoundException("Recipe Not Found");
         else
             return recipeOptional.get();
     }

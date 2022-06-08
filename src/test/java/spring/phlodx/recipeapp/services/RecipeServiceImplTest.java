@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import spring.phlodx.recipeapp.converters.RecipeCommandToRecipe;
 import spring.phlodx.recipeapp.converters.RecipeToRecipeCommand;
 import spring.phlodx.recipeapp.domain.Recipe;
+import spring.phlodx.recipeapp.exceptions.NotFoundException;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 
 import java.util.Collections;
@@ -14,8 +15,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RecipeServiceImplTest {
 
@@ -71,5 +77,12 @@ public class RecipeServiceImplTest {
         Long idToDelete = 2L;
         recipeService.deleteById(idToDelete);
         verify(recipeRepository,times(1)).deleteById(anyLong());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        Recipe byId = recipeService.findById(1L);
     }
 }
