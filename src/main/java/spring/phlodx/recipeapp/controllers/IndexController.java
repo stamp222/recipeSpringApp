@@ -3,14 +3,8 @@ package spring.phlodx.recipeapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import spring.phlodx.recipeapp.domain.Category;
-import spring.phlodx.recipeapp.domain.UnitOfMeasure;
-import spring.phlodx.recipeapp.repositories.CategoryRepository;
-import spring.phlodx.recipeapp.repositories.UnitOfMeasureRepository;
+import org.springframework.web.bind.annotation.GetMapping;
 import spring.phlodx.recipeapp.services.RecipeService;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -22,7 +16,7 @@ public class IndexController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping({"", "/", "index"})
+    @GetMapping({"", "/", "index"})
     public String getIndexPage(Model model) {
 
         log.debug("GetIndexPage started");
