@@ -4,9 +4,7 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import spring.phlodx.recipeapp.commands.NotesCommand;
 import spring.phlodx.recipeapp.commands.RecipeCommand;
-import spring.phlodx.recipeapp.domain.Notes;
 import spring.phlodx.recipeapp.domain.Recipe;
 
 @Component
@@ -42,6 +40,7 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         recipe.setSource(source.getSource());
         recipe.setUrl(source.getUrl());
         recipe.setNotes(notesConverter.convert(source.getNotes()));
+        recipe.setImage(source.getImage());
 
         if (source.getCategories() != null && source.getCategories().size() > 0){
             source.getCategories()
