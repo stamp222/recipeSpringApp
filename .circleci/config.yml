@@ -18,6 +18,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
+      - browser-tools/install-browser-tools
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
@@ -25,7 +26,9 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test cobertura:cobertura
+          command: mvn test
+      - store_artifacts:
+          path: target
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
