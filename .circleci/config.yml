@@ -28,7 +28,7 @@ jobs:
       - store_artifacts:
           path: target
       - codecov/upload:
-          file:
+          file: target/my-reports
 
 
 # Invoke jobs via workflows
