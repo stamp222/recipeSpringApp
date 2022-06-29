@@ -1,7 +1,7 @@
-INSERT INTO category (category) values ('American');
-INSERT INTO category (category) values ('Italian');
-INSERT INTO category (category) values ('Mexican');
-INSERT INTO category (category) values ('Fast Food');
+INSERT INTO category (description) values ('American');
+INSERT INTO category (description) values ('Italian');
+INSERT INTO category (description) values ('Mexican');
+INSERT INTO category (description) values ('Fast Food');
 INSERT INTO unit_of_measure (uom) values ('Teaspoon');
 INSERT INTO unit_of_measure (uom) values ('Each');
 INSERT INTO unit_of_measure (uom) values ('Tablespoon');

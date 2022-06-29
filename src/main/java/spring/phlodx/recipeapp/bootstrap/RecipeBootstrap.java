@@ -2,10 +2,16 @@ package spring.phlodx.recipeapp.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import spring.phlodx.recipeapp.domain.*;
+import spring.phlodx.recipeapp.domain.Category;
+import spring.phlodx.recipeapp.domain.Difficulty;
+import spring.phlodx.recipeapp.domain.Ingredient;
+import spring.phlodx.recipeapp.domain.Notes;
+import spring.phlodx.recipeapp.domain.Recipe;
+import spring.phlodx.recipeapp.domain.UnitOfMeasure;
 import spring.phlodx.recipeapp.repositories.CategoryRepository;
 import spring.phlodx.recipeapp.repositories.RecipeRepository;
 import spring.phlodx.recipeapp.repositories.UnitOfMeasureRepository;
@@ -17,6 +23,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
+@Profile("default")
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
@@ -85,13 +92,13 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         UnitOfMeasure cupsUom = cupsUomOptional.get();
 
         //get Categories
-        Optional<Category> americanCategoryOptional = categoryRepository.findByCategory("American");
+        Optional<Category> americanCategoryOptional = categoryRepository.findByDescription("American");
 
         if (!americanCategoryOptional.isPresent()) {
             throw new RuntimeException("Expected Category Not Found");
         }
 
-        Optional<Category> mexicanCategoryOptional = categoryRepository.findByCategory("Mexican");
+        Optional<Category> mexicanCategoryOptional = categoryRepository.findByDescription("Mexican");
 
         if (!mexicanCategoryOptional.isPresent()) {
             throw new RuntimeException("Expected Category Not Found");

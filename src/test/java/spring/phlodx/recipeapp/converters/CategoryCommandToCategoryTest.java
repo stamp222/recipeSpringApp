@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import spring.phlodx.recipeapp.commands.CategoryCommand;
 import spring.phlodx.recipeapp.domain.Category;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CategoryCommandToCategoryTest {
 
@@ -34,11 +36,11 @@ class CategoryCommandToCategoryTest {
     void convert() {
         CategoryCommand categoryCommand = new CategoryCommand();
         categoryCommand.setId(ID_VALUE);
-        categoryCommand.setCategory(DESCRIPTION);
+        categoryCommand.setDescription(DESCRIPTION);
 
         Category category = categoryCommandToCategory.convert(categoryCommand);
 
         assertEquals(ID_VALUE, category.getId());
-        assertEquals(DESCRIPTION, category.getCategory());
+        assertEquals(DESCRIPTION, category.getDescription());
     }
 }

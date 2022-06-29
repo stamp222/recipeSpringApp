@@ -1,4 +1,4 @@
-create table category (id bigint not null auto_increment, category varchar(255), primary key (id)) engine=InnoDB;
+create table category (id bigint not null auto_increment, description varchar(255), primary key (id)) engine=InnoDB;
 create table ingredient (id bigint not null auto_increment, amount decimal(19,2), description varchar(255), recipe_id bigint, uom_id bigint, primary key (id)) engine=InnoDB;
 create table notes (id bigint not null auto_increment, recipe_notes longtext, recipe_id bigint, primary key (id)) engine=InnoDB;
 create table recipe (id bigint not null auto_increment, cook_time integer, description varchar(255), difficulty varchar(255), directions longtext, image longblob, prep_time integer, servings integer, source varchar(255), url varchar(255), notes_id bigint, primary key (id)) engine=InnoDB;
